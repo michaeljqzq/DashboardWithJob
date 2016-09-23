@@ -4,37 +4,55 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/morris.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap-switch.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
+
+<div class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("BlogsWiki Dashboard", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+            <div class="col-sm-9 col-md-10 navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active">
+                    <a href="#">Overview</a>
+                </li>
+                <li>
+                    <a href="#">xxxxy</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+            <div>@RenderBody()</div>
+        </div>
     </div>
+</div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/msdn-dashboard.js"></script>
+<script src="~/Scripts/raphael-min.js"></script>
+<script src="~/Scripts/morris.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-switch.js"></script>
 </body>
 </html>

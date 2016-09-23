@@ -1,7 +1,44 @@
-﻿
+﻿@using MSDNDashboard.Models
+@model IEnumerable<MSDNDashboard.Models.Job>
+
 @{
-    ViewBag.Title = "Index";
+    // status:
+    // 0 Idle
+    // 1 Scheduled
+    // 2 Running
+    int status = 0;
+    Job currentDisplayJob = Model.FirstOrDefault(j=>j.Status==JobStatus.Running);
+    
+    if (currentDisplayJob != default(Job))
+    {
+        status = 2;
+    }
+    else
+    {
+        currentDisplayJob = Model.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j=>j.StartTimestamp).FirstOrDefault();
+    }
+    if (Model.Any(j => j.Status == JobStatus.Scheduled))
+    {
+        status = 1;
+    }
+    ViewBag.status = status;
+    
+}
+@{
+    ViewBag.Title = "MSDN BlogsWiki Dashboard";
 }
 
-<h2>Index</h2>
+<div class="row main-title">
+    <div class="col-md-1">
+        <h3>Dashboard</h3>
+    </div>
+</div>
+
+
+
+<div id="current-state-partial" class="row main-c">
+    @{Html.RenderPartial("CurrentStatePartial",currentDisplayJob);}
+</div>
+
+
 
