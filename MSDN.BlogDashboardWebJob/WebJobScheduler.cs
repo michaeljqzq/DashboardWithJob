@@ -17,12 +17,20 @@ namespace MSDN.BlogDashboardWebJob
             Console.WriteLine("Job {0} started.",job.ID);
             using(var db = new DataContext())
             {
+                BlogDatabaseConnector blogDatabaseConnector = null;
+                ProfileApiHelper profileApiHelper = null;
+                try {
+                    blogDatabaseConnector = new BlogDatabaseConnector("server=us-cdbr-azure-c-west-387.cloudapp.net;uid=_msdnprod2_;pwd=z4xfepm5tx5w;database=msdnblogs-prod-cs");
+                    profileApiHelper = new ProfileApiHelper("https://profileapi.services.microsoft.com/profileapi/v1/profile/id/Puid:{0}", "d4e9Pi5yeDDVWsItqJP8T4q77ytlYMu7LSFshL1/Hy4=");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Connect mysql or profile API initilization failed. Details : {0}", e.StackTrace);
+                    return;
+                }
                 job.Status = JobStatus.Running;
                 db.Entry(job).State = EntityState.Modified;
                 db.SaveChangesAsync();
-                BlogDatabaseConnector blogDatabaseConnector = new BlogDatabaseConnector("server=us-cdbr-azure-c-west-387.cloudapp.net;uid=_msdnprod2_;pwd=z4xfepm5tx5w;database=msdnblogs-prod-cs");
-                ProfileApiHelper profileApiHelper = new ProfileApiHelper("https://profileapi.services.microsoft.com/profileapi/v1/profile/id/Puid:{0}", "d4e9Pi5yeDDVWsItqJP8T4q77ytlYMu7LSFshL1/Hy4=");
-
                 List<Blog> blogList = blogDatabaseConnector.GetBlogs(job.ID);
                 Console.WriteLine("Blog ID list fetched.Total number : " + blogList.Count);
                 job.TotalNumber = blogList.Count;

@@ -75,3 +75,4 @@ _[Ss]cripts
 *.dot[Cc]over
 Web.Debug.config
 App_Data/
+.vs/
