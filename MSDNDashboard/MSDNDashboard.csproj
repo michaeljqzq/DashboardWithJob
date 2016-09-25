@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,9 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database2.mdf" />
-    <Content Include="App_Data\Database2_log.ldf">
-      <DependentUpon>Database2.mdf</DependentUpon>
-    </Content>
+    <Content Include="App_Data\Database2_log.ldf" />
     <Content Include="Content\bootstrap-switch.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -149,15 +148,17 @@
     <Content Include="Scripts\msdn-dashboard.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\raphael-min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\DataContext.cs" />
     <Compile Include="DAL\DataContextInitializer.cs" />
-    <Compile Include="Migrations\201609220654093_init.cs" />
-    <Compile Include="Migrations\201609220654093_init.Designer.cs">
-      <DependentUpon>201609220654093_init.cs</DependentUpon>
+    <Compile Include="Migrations\201609251152306_init.cs" />
+    <Compile Include="Migrations\201609251152306_init.Designer.cs">
+      <DependentUpon>201609251152306_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Blog.cs" />
@@ -181,6 +182,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Home\CurrentStatePartial.cshtml" />
+    <Content Include="Views\Home\JobHistoryPartial.cshtml" />
+    <Content Include="Views\Home\JobDetailPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -192,8 +195,8 @@
     <Folder Include="Views\Ajax\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609220654093_init.resx">
-      <DependentUpon>201609220654093_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609251152306_init.resx">
+      <DependentUpon>201609251152306_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

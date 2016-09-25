@@ -10,6 +10,7 @@ using Microsoft.Azure.KeyVault;
 using System.Web.Configuration;
 using MSDNDashboard.DAL;
 using MSDNDashboard.Util;
+using MSDNDashboard.Models;
 
 namespace MSDNDashboard
 {
@@ -19,6 +20,15 @@ namespace MSDNDashboard
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            var db = new DataContext();
+            if(db.Jobs.ToList().Count == 0)
+            {
+                Job j1 = new Job() { StartTimestamp = DateTime.Now.AddDays(-1), FinishTimestamp = DateTime.Now, IsManual = false, Status = JobStatus.Scheduled };
+                db.Jobs.Add(j1);
+                db.SaveChanges();
+            }
+
 
             //Database.SetInitializer(new DataContextInitializer());
 

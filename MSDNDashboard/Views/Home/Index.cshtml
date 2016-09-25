@@ -3,26 +3,24 @@
 
 @{
     // status:
-    // 0 Idle
-    // 1 Scheduled
-    // 2 Running
+    // 0 Not Running
+    // 1 Running
     int status = 0;
     Job currentDisplayJob = Model.FirstOrDefault(j=>j.Status==JobStatus.Running);
-    
+
     if (currentDisplayJob != default(Job))
     {
-        status = 2;
+        status = 1;
     }
     else
     {
         currentDisplayJob = Model.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j=>j.StartTimestamp).FirstOrDefault();
     }
-    if (Model.Any(j => j.Status == JobStatus.Scheduled))
-    {
-        status = 1;
-    }
+    Job nextScheduledJob = Model.Where(j => j.Status == JobStatus.Scheduled).OrderBy(j => j.StartTimestamp).FirstOrDefault();
+
+    ViewBag.nextScheduledJob = nextScheduledJob;
     ViewBag.status = status;
-    
+
 }
 @{
     ViewBag.Title = "MSDN BlogsWiki Dashboard";
@@ -37,7 +35,17 @@
 
 
 <div id="current-state-partial" class="row main-c">
-    @{Html.RenderPartial("CurrentStatePartial",currentDisplayJob);}
+    @{Html.RenderPartial("CurrentStatePartial", currentDisplayJob ?? new Job());}
+</div>
+
+<div class="row main-title">
+    <div class="col-md-12">
+        <h3>Job History</h3>
+    </div>
+</div>
+
+<div id="history-partial" class="row main-c">
+    @{Html.RenderPartial("JobHistoryPartial", Model);}
 </div>
 
 

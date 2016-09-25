@@ -7,7 +7,7 @@ using MSDNDashboard.Models;
 
 namespace MSDNDashboard.DAL
 {
-    public class DataContextInitializer : DropCreateDatabaseAlways<DataContext>
+    public class DataContextInitializer : DropCreateDatabaseIfModelChanges<DataContext>
     {
         protected override void Seed(DataContext context)
         {
@@ -16,6 +16,7 @@ namespace MSDNDashboard.DAL
             context.Configs.Add(c1);
             context.Jobs.Add(j1);
             context.SaveChanges();
+            base.Seed(context);
         }
     }
 }

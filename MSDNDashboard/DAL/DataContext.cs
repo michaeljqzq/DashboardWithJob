@@ -11,7 +11,7 @@ namespace MSDNDashboard.DAL
     {
         public DataContext() : base("DataContext")
         {
-            
+            Database.SetInitializer(new DataContextInitializer());
         }
 
         public DbSet<Job> Jobs { get; set; }

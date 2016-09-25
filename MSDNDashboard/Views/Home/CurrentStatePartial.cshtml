@@ -3,56 +3,56 @@
 
 @{
     int status = ViewBag.status;
-    string[] indicatorTags = { "Idle", "Job Scheduled", "Job Running" };
+    string[] indicatorTags = { "Not Running", "Running" };
+    string[] indicatorIconClass = { "glyphicon-minus-sign", "glyphicon-ok-sign" };
+    string[] jobDiscriptionLabel = { "last finished job", "current running job" };
 }
 
-<div class="row main-title-2">
-    <div class="col-md-2">
-        <h4>Current Status</h4>
-    </div>
-</div>
-
-<div class="col-md-2 main-c-indicator">
+<div id="main-c-indicator" class="col-md-3 main-c-indicator">
     <div class="row">
-        <div class="small-box bg-green-gradient">
-            <div class="inner">
-                <h2>@indicatorTags[status]</h2>
+
+        <div class="panel panel-warning">
+            <div class="panel-heading">Running state</div>
+            <div class="panel-body">
+                <span class="glyphicon @indicatorIconClass[status]"></span>
+                @indicatorTags[status]
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary">Trigger Job</button>
+        <div class="panel panel-warning">
+            <div class="panel-heading">Next scheduled job</div>
+            <div id="next-schedule-job" class="panel-body">
+                @(ViewBag.nextScheduledJob == null ? "No scheduled job" : ViewBag.nextScheduledJob.StartTimestamp.ToString())
+            </div>
+        </div>
+
+        <button type="button" id="triggerjob" class="btn btn-success">Trigger Job</button>
+        <input type="hidden" id="jobtriggerurl" value="@Url.Action("TriggerJob")" />
     </div>
 </div>
 
-
-<div class="col-md-10 main-c-info">
-    <div class="row">
+@if (!( Model == null || Model.ID == 0 ))
+{
+<div class="col-md-9 main-c-info">
+    <div class="row main-c-header">
         <div class="col-md-8">
-            @{
-                var hint = "";
-                if (status == 1 || status == 0)
-                {
-                    hint = "last finished job";
-                }
-                else if (status == 2)
-                {
-                    hint = "current running job";
-                }
-            }
-            <h5>Status of @hint</h5>
+            <h4>Status of @jobDiscriptionLabel[status]</h4>
         </div>
-        <div class="col-md-2">
-            <h4>Auto refresh</h4>
+        @if (status == 1)
+        {
+        <div class="col-md-2" >
+            <h4 id="auto-refresh-label">Auto refresh</h4>
             <input type="hidden" id="jobid" value="@Model.ID"/>
             <input type="hidden" id="ajaxurl" value="@Url.Action("AjaxUpdate")"/>
         </div>
         <div class="col-md-2">
             <div id="switch" class="switch has-switch">
                 <div class="switch-on">
-                    <input id="switch-input" type="checkbox" checked />
+                    <input id="switch-input" type="checkbox" />
                 </div>
             </div>
         </div>
+        }
     </div>
 
     <div class="row">
@@ -62,17 +62,18 @@
                     string executionTime = "";
                     if (status == 1 || status == 0)
                     {
-                        executionTime = (Model.FinishTimestamp - Model.StartTimestamp).ToString(@"dd\.hh\:mm\:ss");
+                        executionTime = ( Model.FinishTimestamp - Model.StartTimestamp ).ToString(@"dd\.hh\:mm\:ss");
                     }
                     else if (status == 2)
                     {
-                        executionTime = (DateTime.Now - Model.StartTimestamp).ToString(@"dd\.hh\:mm\:ss");
+                        executionTime = ( DateTime.Now - Model.StartTimestamp ).ToString(@"dd\.hh\:mm\:ss");
                     }
                 }
-                <li class="list-group-item list-group-item-warning">Start from : @Model.StartTimestamp</li>
-                <li class="list-group-item list-group-item-warning">Execution time : @executionTime</li>
-                <li class="list-group-item list-group-item-warning">Triggered by : @(Model.IsManual ? "Manual" : "Scheduled")</li>
-                <li class="list-group-item list-group-item-warning">Total Blog sites : @Model.TotalNumber</li>
+                <li class="list-group-item list-group-item-info">Start from : @Model.StartTimestamp</li>
+                <li class="list-group-item list-group-item-info">Execution time : @executionTime</li>
+                <li class="list-group-item list-group-item-info">Triggered by : @(Model.IsManual ? "Manual" : "Scheduled")</li>
+                <li class="list-group-item list-group-item-info">Total Blog sites : @Model.TotalNumber</li>
+                
             </ul>
         </div>
 
@@ -84,10 +85,10 @@
                     morrisObject = Morris.Donut({
                         element: 'blogChart',
                         data: [
-                             { label: "Normal site", value: @Model.BlogList.Count(b=>b.Status==BlogStatus.Normal) },
-                             { label: "Site without FTE", value: @Model.BlogList.Count(b=>b.Status==BlogStatus.NoMSFTAdmin) },
-                             { label: "Site without admin", value: @Model.BlogList.Count(b=>b.Status==BlogStatus.ZeroAdmin) },
-                             { label: "Unknown error", value: @Model.BlogList.Count(b=>b.Status==BlogStatus.Error) }
+                             { label: "Normal site", value: @Model.BlogList.Count(b => b.Status == BlogStatus.Normal) },
+                             { label: "Site without FTE", value: @Model.BlogList.Count(b => b.Status == BlogStatus.NoMSFTAdmin) },
+                             { label: "Site without admin", value: @Model.BlogList.Count(b => b.Status == BlogStatus.ZeroAdmin) },
+                             { label: "Unknown error", value: @Model.BlogList.Count(b => b.Status == BlogStatus.Error) }
                         ]
                     });
                 });
@@ -97,10 +98,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                    <span>45% Complete</span>
+                <div class="progress-bar progree-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="@Model.CurrentNumber" aria-valuemin="0" aria-valuemax="@Model.TotalNumber" style="width: @((double)Model.CurrentNumber/Model.TotalNumber*100)%">
+                    <span>@Model.CurrentNumber / @Model.TotalNumber</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+                    }
+                    else
+                    {
+
+                        <div class="col-md-9 alert alert-info" role="alert"><h3>There aren't any running or history jobs. Try manually trigger one or schedule one !</h3></div>
+
+                    }

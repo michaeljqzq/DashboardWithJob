@@ -88,25 +88,33 @@ textarea {
     background-color: #ecf0f5;
 }
 
-.main .row {
-    padding-top: 15px;
-}
-
 .main h3 {
     margin-top: 0;
-}
-
-.main h4 {
-    margin-left: 20px;
 }
 
 .main-c {
     padding-left: 20px;
     padding-right: 20px;
 }
+.main-c-header {
+    background-color:wheat;
+    padding-bottom:5px;
+}
 
-.main-c-indicator span {
-    padding: 30px;
+div.main-title {
+    padding-top:25px;
+}
+
+#main-c-indicator {
+    padding-right: 35px;
+}
+
+#main-c-indicator .row{
+    padding-top:0;
+}
+
+#main-c-indicator .btn{
+    width:100%;
 }
 
 .main-c-indicator h2 {
@@ -114,11 +122,21 @@ textarea {
 }
 
 .main-c-info {
-    background-color: white;    
+    background-color: white; 
+    border-radius:4px;   
 }
 
 .main-c-info .row {
     padding-top: 10px;
+}
+
+.main-c-header {
+    background-color:#fcf8e3;
+    font-size:14px;
+}
+
+#auto-refresh-label {
+    text-align:right;
 }
 
 .small-box {
@@ -148,4 +166,8 @@ textarea {
   background: -o-linear-gradient(#00ca6d, #00a65a) !important;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ca6d', endColorstr='#00a65a', GradientType=0) !important;
   color: #fff;
+}
+
+.glyphicon {
+    margin-right:10px;
 }
