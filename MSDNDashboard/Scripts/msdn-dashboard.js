@@ -31,6 +31,7 @@ AutoRefresh.prototype.doAutoRefresh = function () {
 }
 
 AutoRefresh.prototype.initialPage = function () {
+    $.fn.bootstrapSwitch.defaults.onColor = 'warning';
     $('#switch-input').bootstrapSwitch();
     if ($('#switch-input') && $('#switch-input').bootstrapSwitch('state')) {
         AutoRefresh.prototype.turnOnAutoRefresh();
@@ -39,8 +40,10 @@ AutoRefresh.prototype.initialPage = function () {
     $('#switch-input').on('switchChange.bootstrapSwitch', function (e, data) {
         if (data) {
             AutoRefresh.prototype.turnOnAutoRefresh();
+            $('#progressbar').addClass('active');
         } else {
             AutoRefresh.prototype.turnOffAutoRefresh();
+            $('#progressbar').removeClass('active');
         }
     });
 
@@ -55,6 +58,9 @@ AutoRefresh.prototype.initialPage = function () {
                 $('#next-schedule-job').html(data.timestamp);
                 Util.prototype.createAlert('Success : ' + data.message, 'alert alert-success fade in');
                 //TODO set a timer to refresh page
+                setTimeout(function() {
+                    AutoRefresh.prototype.doAutoRefresh();
+                }, 6000);
             } else {
                 Util.prototype.createAlert('Fail : ' + data.message, 'alert alert-danger fade in');
             }
@@ -69,6 +75,12 @@ AutoRefresh.prototype.initialPage = function () {
         var jobid = $(this).attr('jobid');
         $('#jobdetail').load(url + '?jobid=' + jobid);
     });
+
+    if ($('#jobstatus').val() === '1') {
+        $('#progressbar').show();
+    } else {
+        $('#progressbar').hide();
+    }
 
     //$('#export-csv').click(function() {
     //    var url = $('ajaxurl_in_detail').val();

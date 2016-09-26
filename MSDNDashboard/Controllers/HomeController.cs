@@ -78,7 +78,7 @@ namespace MSDNDashboard.Controllers
             return Json(new
             {
                 success = "true",
-                message = "The job will run in a minute.",
+                message = "The page will automatically refresh when job starts.",
                 timestamp = DateTime.Now.ToString()
             });
 

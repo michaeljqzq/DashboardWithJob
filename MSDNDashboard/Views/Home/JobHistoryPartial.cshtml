@@ -13,7 +13,7 @@
         {
             if (job.Status != JobStatus.Running && job.Status != JobStatus.Scheduled )
             {
-                <a href="#" jobid="@job.ID" class="list-group-item list-group-item-warning">@job.StartTimestamp (@job.Status.ToString())</a>
+                <a href="#" jobid="@job.ID" class="list-group-item list-group-item-info">@job.StartTimestamp (@job.Status.ToString())</a>
             }
         }
     }

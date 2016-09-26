@@ -35,13 +35,27 @@ textarea {
 
 #sidebar {
     padding-right: 0;
+    padding-left: 0;
+    position: fixed;
+    margin-top: 50px;
 }
 
-.sidebar li:hover {
+#sidebar .nav-pills>li>a {
+    border-radius: 0;
+    color: #b8c7ce;
+    padding-right: 0;
+}
+
+#sidebar .nav-pills>li.active>a {
+    color: #fff;
     background-color: #1e282c;
 }
 
-.sidebar li.active {
+#sidebar .nav-pills>li:hover>a {
+    background-color: #1e282c;
+}
+
+.sidebar li:hover,.sidebar li.active,.sidebar li a:visited {
     background-color: #1e282c;
 }
 
@@ -61,19 +75,6 @@ textarea {
     color: white;
 }
 
-.nav.nav-sidebar li a {
-    color: #b8c7ce;
-    padding-right: 0;
-}
-
-.nav.nav-sidebar li.active a {
-    color: #fff;
-}
-
-.nav.nav-sidebar li:hover a {
-    background-color: #1e282c;
-}
-
 .navbar-header {
     background-color: #367fa9;
 }
@@ -84,7 +85,7 @@ textarea {
 
 .main {
     padding: 0px 20px 20px 20px ;
-    height: 100%;
+    min-height: 100%;
     background-color: #ecf0f5;
 }
 
@@ -95,10 +96,6 @@ textarea {
 .main-c {
     padding-left: 20px;
     padding-right: 20px;
-}
-.main-c-header {
-    background-color:wheat;
-    padding-bottom:5px;
 }
 
 div.main-title {
@@ -131,8 +128,9 @@ div.main-title {
 }
 
 .main-c-header {
-    background-color:#fcf8e3;
+    background-color:#fff2e6;
     font-size:14px;
+    padding-bottom:5px;
 }
 
 #auto-refresh-label {
@@ -150,6 +148,10 @@ div.main-title {
   padding: 10px;
 }
 
+#statuslist {
+    margin-top: 20px;    
+}
+
 #blogChart {
     height: 250px;
 }
@@ -161,20 +163,6 @@ div.main-title {
 .a-white:hover,.a-white:visited {
     color: white;
     text-decoration: none;
-}
-
-.bg-green {
-  background-color: #00a65a;
-}
-
-.bg-green-gradient {
-  background: #00a65a !important;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00a65a), color-stop(1, #00ca6d)) !important;
-  background: -ms-linear-gradient(bottom, #00a65a, #00ca6d) !important;
-  background: -moz-linear-gradient(center bottom, #00a65a 0%, #00ca6d 100%) !important;
-  background: -o-linear-gradient(#00ca6d, #00a65a) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ca6d', endColorstr='#00a65a', GradientType=0) !important;
-  color: #fff;
 }
 
 .glyphicon {

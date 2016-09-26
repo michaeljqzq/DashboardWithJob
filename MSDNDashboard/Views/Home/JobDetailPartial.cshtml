@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" jobid="@Model.ID" id="export-csv" class="btn btn-success">
+        <button type="button" jobid="@Model.ID" id="export-csv" class="btn btn-warning">
             <a class="a-white" target="_blank" href="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)">Export CSV</a>
         </button>
         <input type="hidden" id="ajaxurl_in_detail" value="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)" />
@@ -35,8 +35,8 @@
             }
             <li class="list-group-item list-group-item-info">Job ID : @Model.ID</li>
             <li class="list-group-item list-group-item-info">Start from : @Model.StartTimestamp</li>
-            <li class="list-group-item list-group-item-info">Running result : @Model.Status.ToString()</li>
             <li class="list-group-item list-group-item-info">Execution time : @executionTime</li>
+            <li class="list-group-item list-group-item-info">Status : @Model.Status.ToString()</li>
             <li class="list-group-item list-group-item-info">Triggered by : @(Model.IsManual ? "Manual" : "Scheduled")</li>
             <li class="list-group-item list-group-item-info">Total Blog sites : @Model.TotalNumber</li>
             <li class="list-group-item list-group-item-info">Normal Blog sites : @Model.BlogList.Count(b => b.Status == BlogStatus.Normal)</li>
@@ -64,36 +64,36 @@
     <div class="col-md-7">
         @if(countNoAdmin!=0)
         {
-        <div class="panel panel-danger">
+        <div class="panel panel-info">
             <div class="panel-heading">Blog sites without admin</div>
             <div class="panel-body list-group">
-                @foreach(var blog in Model.BlogList.Where(b=>b.Status == BlogStatus.ZeroAdmin))
+                @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.ZeroAdmin))
                 {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-danger">@blog.Url</a>
+                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-info">@blog.Url</a>
                 }
             </div>
         </div>
         }
         @if (countNoFTEAdmin != 0)
         {
-        <div class="panel panel-danger">
+        <div class="panel panel-info">
             <div class="panel-heading">Blog sites without FTE admin</div>
             <div class="panel-body list-group">
                 @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.NoMSFTAdmin))
                 {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-danger">@blog.Url</a>
+                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-info">@blog.Url</a>
                 }
             </div>
         </div>
         }
         @if (countError != 0)
         {
-        <div class="panel panel-danger">
+        <div class="panel panel-info">
             <div class="panel-heading">Blog sites with unknown error</div>
             <div class="panel-body list-group">
                 @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.Error))
                 {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-danger">@blog.Url</a>
+                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-warning">@blog.Url</a>
                 }
             </div>
         </div>
