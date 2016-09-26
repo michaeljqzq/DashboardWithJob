@@ -156,9 +156,9 @@
   <ItemGroup>
     <Compile Include="DAL\DataContext.cs" />
     <Compile Include="DAL\DataContextInitializer.cs" />
-    <Compile Include="Migrations\201609251152306_init.cs" />
-    <Compile Include="Migrations\201609251152306_init.Designer.cs">
-      <DependentUpon>201609251152306_init.cs</DependentUpon>
+    <Compile Include="Migrations\201609260206128_init.cs" />
+    <Compile Include="Migrations\201609260206128_init.Designer.cs">
+      <DependentUpon>201609260206128_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Blog.cs" />
@@ -195,8 +195,8 @@
     <Folder Include="Views\Ajax\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609251152306_init.resx">
-      <DependentUpon>201609251152306_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609260206128_init.resx">
+      <DependentUpon>201609260206128_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MSDNDashboard.DAL;
 using MSDNDashboard.Models;
 using System.Data.Entity.SqlServer;
+using System.Text;
 
 namespace MSDNDashboard.Controllers
 {
@@ -87,6 +88,29 @@ namespace MSDNDashboard.Controllers
         {
             var db = new DataContext();
             return PartialView("JobDetailPartial", db.Jobs.Find(jobid));
+        }
+
+        public ActionResult GetCsvFromJob(int jobid)
+        {
+            var db = new DataContext();
+            Job job = db.Jobs.Find(jobid);
+            if (job == null)
+            {
+                return new EmptyResult();
+            }
+            StringBuilder output = new StringBuilder();
+            output.Append("BlogID,BlogUrl,Status\n");
+            foreach (var blog in job.BlogList.Where(b=>b.Status == BlogStatus.NoMSFTAdmin || b.Status == BlogStatus.ZeroAdmin || b.Status == BlogStatus.Error).OrderBy(b=>b.Status))
+            {
+                output.Append("\"");
+                output.Append(blog.BlogID);
+                output.Append("\",\"");
+                output.Append(blog.Url);
+                output.Append("\",\"");
+                output.Append(blog.Status);
+                output.Append("\"\n");
+            }
+            return File(System.Text.Encoding.Default.GetBytes(output.ToString()), System.Net.Mime.MediaTypeNames.Text.Plain,"job_"+jobid+".csv");
         }
     }
 }

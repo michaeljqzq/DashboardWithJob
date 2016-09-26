@@ -7,7 +7,10 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" id="export-csv" class="btn btn-success">Export CSV</button>
+        <button type="button" jobid="@Model.ID" id="export-csv" class="btn btn-success">
+            <a class="a-white" target="_blank" href="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)">Export CSV</a>
+        </button>
+        <input type="hidden" id="ajaxurl_in_detail" value="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)" />
     </div>
 </div>
 

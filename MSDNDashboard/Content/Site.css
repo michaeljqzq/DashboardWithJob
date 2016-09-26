@@ -154,6 +154,15 @@ div.main-title {
     height: 250px;
 }
 
+.a-white {
+    color: white;
+}
+
+.a-white:hover,.a-white:visited {
+    color: white;
+    text-decoration: none;
+}
+
 .bg-green {
   background-color: #00a65a;
 }

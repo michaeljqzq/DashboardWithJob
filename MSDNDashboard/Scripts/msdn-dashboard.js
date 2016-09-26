@@ -67,10 +67,14 @@ AutoRefresh.prototype.initialPage = function () {
     $('#joblist a').click(function () {
         var url = $('#jobdetailurl').val();
         var jobid = $(this).attr('jobid');
-        $('#jobdetail').load(url + '?jobid=' + jobid, null, function () {
-            
-        });
+        $('#jobdetail').load(url + '?jobid=' + jobid);
     });
+
+    //$('#export-csv').click(function() {
+    //    var url = $('ajaxurl_in_detail').val();
+    //    var jobid = $(this).attr('jobid');
+
+    //})
 }
 
 Util.prototype.createAlert = function (message, className) {
