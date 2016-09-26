@@ -6,6 +6,8 @@ Util = function () {
 };
 AutoRefresh.prototype.intervalId = -1;
 
+AutoRefresh.prototype.lastStatus = null;
+
 AutoRefresh.prototype.turnOnAutoRefresh = function () {
     if (AutoRefresh.prototype.intervalId === -1) {
         AutoRefresh.prototype.intervalId = setInterval(AutoRefresh.prototype.doAutoRefresh, 5000);
@@ -33,8 +35,10 @@ AutoRefresh.prototype.doAutoRefresh = function () {
 AutoRefresh.prototype.initialPage = function () {
     $.fn.bootstrapSwitch.defaults.onColor = 'warning';
     $('#switch-input').bootstrapSwitch();
-    if ($('#switch-input') && $('#switch-input').bootstrapSwitch('state')) {
+    if ($('#switch-input').length !== 0 && $('#switch-input').bootstrapSwitch('state')) {
         AutoRefresh.prototype.turnOnAutoRefresh();
+    } else {
+        AutoRefresh.prototype.turnOffAutoRefresh();
     }
 
     $('#switch-input').on('switchChange.bootstrapSwitch', function (e, data) {
@@ -57,10 +61,11 @@ AutoRefresh.prototype.initialPage = function () {
             if (data.success === 'true') {
                 $('#next-schedule-job').html(data.timestamp);
                 Util.prototype.createAlert('Success : ' + data.message, 'alert alert-success fade in');
-                //TODO set a timer to refresh page
-                setTimeout(function() {
+                // set a timer to refresh page
+                $('#jobid').val(data.jobid);
+                setTimeout(function () {
                     AutoRefresh.prototype.doAutoRefresh();
-                }, 6000);
+                }, 8000);
             } else {
                 Util.prototype.createAlert('Fail : ' + data.message, 'alert alert-danger fade in');
             }
@@ -75,18 +80,18 @@ AutoRefresh.prototype.initialPage = function () {
         var jobid = $(this).attr('jobid');
         $('#jobdetail').load(url + '?jobid=' + jobid);
     });
-
-    if ($('#jobstatus').val() === '1') {
+    var status = $('#jobstatus').val();
+    if (status === '1') {
         $('#progressbar').show();
     } else {
         $('#progressbar').hide();
     }
 
-    //$('#export-csv').click(function() {
-    //    var url = $('ajaxurl_in_detail').val();
-    //    var jobid = $(this).attr('jobid');
-
-    //})
+    if ((AutoRefresh.prototype.lastStatus === '1' && status === '0') || 
+        (AutoRefresh.prototype.lastStatus === '0' && status === '1')) {
+        $('#history-partial').load($('#jobhistoryurl').val());
+    }
+    AutoRefresh.prototype.lastStatus = status;
 }
 
 Util.prototype.createAlert = function (message, className) {

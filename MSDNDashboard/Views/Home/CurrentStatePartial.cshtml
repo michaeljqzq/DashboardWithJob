@@ -39,12 +39,12 @@
         <div class="col-md-8">
             <h4>Status of @jobDiscriptionLabel[status]</h4>
         </div>
+        <input type="hidden" id="jobid" value="@Model.ID" />
+        <input type="hidden" id="ajaxurl" value="@Url.Action("AjaxUpdate")" />
         @if (status == 1)
         {
         <div class="col-md-2" >
             <h4 id="auto-refresh-label">Auto refresh</h4>
-            <input type="hidden" id="jobid" value="@Model.ID"/>
-            <input type="hidden" id="ajaxurl" value="@Url.Action("AjaxUpdate")"/>
         </div>
         <div class="col-md-2">
             <div id="switch" class="switch has-switch bootstrap-switch-warning">
@@ -61,11 +61,11 @@
             <ul id="statuslist" class="list-group">
                 @{
                     string executionTime = "";
-                    if (status == 1 || status == 0)
+                    if (status == 0)
                     {
                         executionTime = ( Model.FinishTimestamp - Model.StartTimestamp ).ToString(@"dd\.hh\:mm\:ss");
                     }
-                    else if (status == 2)
+                    else if (status == 1)
                     {
                         executionTime = ( DateTime.Now - Model.StartTimestamp ).ToString(@"dd\.hh\:mm\:ss");
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,8 +17,9 @@ namespace MSDNDashboard.Controllers
         public ActionResult Index()
         {
             var db = new DataContext();
+            var num = Convert.ToInt32(ConfigurationManager.AppSettings["NumbersInHistoryJobs"]);
             List<Job> jobList = db.Jobs.Where(j => j.Status == JobStatus.Running || j.Status == JobStatus.Scheduled).ToList();
-            jobList.AddRange(db.Jobs.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j => j.ID).Take(10).ToList());
+            jobList.AddRange(db.Jobs.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j => j.ID).Take(num).ToList());
             return View(jobList);
         }
 
@@ -33,7 +35,7 @@ namespace MSDNDashboard.Controllers
 
             if (currentDisplayJob != default(Job))
             {
-                status = 2;
+                status = 1;
             }
             else
             {
@@ -79,6 +81,7 @@ namespace MSDNDashboard.Controllers
             {
                 success = "true",
                 message = "The page will automatically refresh when job starts.",
+                jobid = newJob.ID,
                 timestamp = DateTime.Now.ToString()
             });
 
@@ -88,6 +91,15 @@ namespace MSDNDashboard.Controllers
         {
             var db = new DataContext();
             return PartialView("JobDetailPartial", db.Jobs.Find(jobid));
+        }
+
+        public ActionResult GetJobHistory()
+        {
+            var db = new DataContext();
+            var num = Convert.ToInt32(ConfigurationManager.AppSettings["NumbersInHistoryJobs"]);
+            List<Job> jobList = db.Jobs.Where(j => j.Status == JobStatus.Running || j.Status == JobStatus.Scheduled).ToList();
+            jobList.AddRange(db.Jobs.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j => j.ID).Take(num).ToList());
+            return PartialView("JobHistoryPartial", jobList);
         }
 
         public ActionResult GetCsvFromJob(int jobid)
