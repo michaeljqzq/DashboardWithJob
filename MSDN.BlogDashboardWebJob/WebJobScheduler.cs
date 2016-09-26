@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MSDNDashboard.DAL;
 using MSDNDashboard.Models;
@@ -12,7 +14,8 @@ namespace MSDN.BlogDashboardWebJob
 {
     public class WebJobScheduler
     {
-        public void StartJob(Job job)
+        private static object _lock = new object();
+        public async void StartJob(Job job)
         {
             Console.WriteLine("Job {0} started.",job.ID);
             using(var db = new DataContext())
@@ -30,12 +33,12 @@ namespace MSDN.BlogDashboardWebJob
                 }
                 job.Status = JobStatus.Running;
                 db.Entry(job).State = EntityState.Modified;
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
                 List<Blog> blogList = blogDatabaseConnector.GetBlogs(job.ID);
                 Console.WriteLine("Blog ID list fetched.Total number : " + blogList.Count);
                 job.TotalNumber = blogList.Count;
                 db.Entry(job).State = EntityState.Modified;
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
                 int i = 0;
 
@@ -75,13 +78,13 @@ namespace MSDN.BlogDashboardWebJob
                     db.Blogs.Add(_blog);
                     job.CurrentNumber = ++i;
                     db.Entry(job).State = EntityState.Modified;
-                    db.SaveChangesAsync();
+                    await db.SaveChangesAsync();
                 }
 
                 job.Status = JobStatus.Succeeded;
                 job.FinishTimestamp = DateTime.Now;
                 db.Entry(job).State = EntityState.Modified;
-                db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -110,6 +113,21 @@ namespace MSDN.BlogDashboardWebJob
             {
                 return db.Jobs.Any(j => j.Status == JobStatus.Running);
             }
+        }
+
+        public string tgn()
+        {
+            return "next job";
+        }
+
+        public void tr()
+        {
+            lock (_lock)
+            {
+                Thread.Sleep(5000);
+                Console.WriteLine("job finished");
+            }
+            return;
         }
     }
 }
