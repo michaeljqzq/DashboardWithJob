@@ -2,15 +2,21 @@
 @model MSDNDashboard.Models.Job
 
 <div class="row main-c-header">
-    <div class="col-md-10">
+    <div class="col-md-9">
         <h4>Job at @Model.StartTimestamp</h4>
+    </div>
+
+    <div class="col-md-1">
+        <button type="button" jobid="@Model.ID" id="jobdetailrefresh" class="btn btn-warning">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
     </div>
 
     <div class="col-md-2">
         <button type="button" jobid="@Model.ID" id="export-csv" class="btn btn-warning">
-            <a class="a-white" target="_blank" href="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)">Export CSV</a>
+            <a class="a-white" target="_blank" href="@(Url.Action("GetCsvFromJob") + "?jobid=" + Model.ID)">Export CSV</a>
         </button>
-        <input type="hidden" id="ajaxurl_in_detail" value="@(Url.Action("GetCsvFromJob")+"?jobid="+Model.ID)" />
+        <input type="hidden" id="ajaxurl_in_detail" value="@(Url.Action("GetCsvFromJob") + "?jobid=" + Model.ID)"/>
     </div>
 </div>
 
