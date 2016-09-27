@@ -91,7 +91,8 @@
                              { label: "Site without FTE", value: @Model.BlogList.Count(b => b.Status == BlogStatus.NoMSFTAdmin) },
                              { label: "Site without admin", value: @Model.BlogList.Count(b => b.Status == BlogStatus.ZeroAdmin) },
                              { label: "Unknown error", value: @Model.BlogList.Count(b => b.Status == BlogStatus.Error) }
-                        ]
+                        ],
+                        colors: [ "#d9edf7" , "#FFEDDB" , "#E0E0FF" , "#CCCCCC" ]
                     });
                 });
         </script>
