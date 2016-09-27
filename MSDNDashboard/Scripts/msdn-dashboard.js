@@ -44,10 +44,10 @@ AutoRefresh.prototype.initialPage = function () {
     $('#switch-input').on('switchChange.bootstrapSwitch', function (e, data) {
         if (data) {
             AutoRefresh.prototype.turnOnAutoRefresh();
-            $('#progressbar').addClass('active');
+            $('#progressbar>div').addClass('active');
         } else {
             AutoRefresh.prototype.turnOffAutoRefresh();
-            $('#progressbar').removeClass('active');
+            $('#progressbar>div').removeClass('active');
         }
     });
 
@@ -81,12 +81,6 @@ AutoRefresh.prototype.initialPage = function () {
         $('#jobdetail').load(url + '?jobid=' + jobid);
     });
 
-    $('body').delegate('#jobdetailrefresh','click',function() {
-        var url = $('#jobdetailurl').val();
-        var jobid = $(this).attr('jobid');
-        $('#jobdetail').load(url + '?jobid=' + jobid);
-    });
-
     var status = $('#jobstatus').val();
     if (status === '1') {
         $('#progressbar').show();
@@ -110,5 +104,11 @@ Util.prototype.createAlert = function (message, className) {
 
 $(document).ready(function () {
     AutoRefresh.prototype.initialPage();
+
+    $('body').delegate('#jobdetailrefresh', 'click', function () {
+        var url = $('#jobdetailurl').val();
+        var jobid = $(this).attr('jobid');
+        $('#jobdetail').load(url + '?jobid=' + jobid);
+    });
 });
 

@@ -172,7 +172,7 @@ div.main-title {
     color: white;
 }
 
-.a-white:hover,.a-white:visited {
+.a-white:hover,.a-white:visited,.a-white:focus {
     color: white;
     text-decoration: none;
 }
