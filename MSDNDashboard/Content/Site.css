@@ -156,6 +156,18 @@ div.main-title {
     height: 250px;
 }
 
+#jobdetailrefresh {
+    padding: 6px 9px;
+}
+
+#jobdetailrefreshdiv {
+    margin-right: -15px;
+}
+
+#jobdetailrefresh span {
+    margin-right: 0;
+}
+
 .a-white {
     color: white;
 }
