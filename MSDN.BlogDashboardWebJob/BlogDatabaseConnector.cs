@@ -21,7 +21,7 @@ namespace MSDN.BlogDashboardWebJob
 
         public List<Blog> GetBlogs(int jobId)
         {
-            string query = "select blog_id,domain,path from wp_blogs limit 30";
+            string query = "select blog_id,domain,path from wp_blogs";
             MySqlCommand cmd = new MySqlCommand(query,connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             List<Blog> blogList = new List<Blog>();
