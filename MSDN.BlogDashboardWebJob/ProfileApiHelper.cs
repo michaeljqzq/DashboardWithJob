@@ -22,6 +22,10 @@ namespace MSDN.BlogDashboardWebJob
 
         public bool CheckIfUserIsMSFT(string guid)
         {
+            if (guid == "")
+            {
+                return false;
+            }
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("x-ms-applicationKey", applicationKey);

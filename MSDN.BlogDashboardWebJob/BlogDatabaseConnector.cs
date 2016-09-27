@@ -47,10 +47,7 @@ namespace MSDN.BlogDashboardWebJob
             while (reader.Read() == true)
             {
                 string metaValue = Convert.ToString(reader["meta_value"]);
-                if (metaValue != "")
-                {
-                    blogAdminsList.Add(metaValue);
-                }
+                blogAdminsList.Add(metaValue);
             }
             reader.Close();
             return blogAdminsList;
