@@ -18,6 +18,7 @@ namespace MSDNDashboard.Models
 
     public enum BlogStatus
     {
+        Disabled,
         ZeroAdmin,
         NoMSFTAdmin,
         Normal,

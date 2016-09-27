@@ -25,18 +25,15 @@ namespace MSDN.BlogDashboardWebJob
             MySqlCommand cmd = new MySqlCommand(query,connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             List<Blog> blogList = new List<Blog>();
-            while (reader.Read() == true)
+            while (reader.Read())
             {
-                var blogId = Convert.ToInt32(reader["blog_id"]);
-                if (IsBlogSiteEnabled(blogId))
+                blogList.Add(new Blog()
                 {
-                    blogList.Add(new Blog()
-                    {
-                        BlogID = blogId,
-                        JobID = jobId,
-                        Url = "https://" + reader["domain"] + reader["path"]
-                    });
-                }
+                    BlogID = Convert.ToInt32(reader["blog_id"]),
+                    JobID = jobId,
+                    Url = "https://" + reader["domain"] + reader["path"],
+                    Status = BlogStatus.Disabled
+                });
             }
             reader.Close();
             return blogList;
@@ -57,7 +54,7 @@ namespace MSDN.BlogDashboardWebJob
             return blogAdminsList;
         }
 
-        private bool IsBlogSiteEnabled(int blogId)
+        public bool IsBlogSiteEnabled(int blogId)
         {
             string query = "select option_value from wp_"+blogId+"_options where option_name='ilmds_splash_page_enabled'";
             bool result = true;
