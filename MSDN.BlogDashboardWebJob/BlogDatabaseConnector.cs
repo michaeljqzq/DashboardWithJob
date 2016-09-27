@@ -21,18 +21,22 @@ namespace MSDN.BlogDashboardWebJob
 
         public List<Blog> GetBlogs(int jobId)
         {
-            string query = "select blog_id,domain,path from wp_blogs";
+            string query = "select blog_id,domain,path from wp_blogs where path<>'/'";
             MySqlCommand cmd = new MySqlCommand(query,connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             List<Blog> blogList = new List<Blog>();
             while (reader.Read() == true)
             {
-                blogList.Add(new Blog()
+                var blogId = Convert.ToInt32(reader["blog_id"]);
+                if (IsBlogSiteEnabled(blogId))
                 {
-                    BlogID = Convert.ToInt32(reader["blog_id"]),
-                    JobID = jobId,
-                    Url = "https://"+reader["domain"]+reader["path"]
-                });
+                    blogList.Add(new Blog()
+                    {
+                        BlogID = blogId,
+                        JobID = jobId,
+                        Url = "https://" + reader["domain"] + reader["path"]
+                    });
+                }
             }
             reader.Close();
             return blogList;
@@ -51,7 +55,26 @@ namespace MSDN.BlogDashboardWebJob
             }
             reader.Close();
             return blogAdminsList;
-        } 
+        }
+
+        private bool IsBlogSiteEnabled(int blogId)
+        {
+            string query = "select option_value from wp_"+blogId+"_options where option_name='ilmds_splash_page_enabled'";
+            bool result = true;
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            List<string> blogAdminsList = new List<string>();
+            while (reader.Read() == true)
+            {
+                string optionValue = Convert.ToString(reader["option_value"]);
+                if (optionValue == "y")
+                {
+                    result = false;
+                }
+            }
+            reader.Close();
+            return result;
+        }
 
         ~BlogDatabaseConnector()
         {
