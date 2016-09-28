@@ -78,9 +78,9 @@
 
             @if (countNoAdmin != 0)
             {
-                <div class="blog-list panel panel-info">
+                <div class="panel panel-info">
                     <div class="panel-heading">Blog sites without admin</div>
-                    <div class="panel-body list-group">
+                    <div class="blog-list panel-body list-group">
                         @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.ZeroAdmin))
                         {
                             <a target="_blank" v-show="checkText(searchtext,'@blog.Url')" href="@blog.Url" class="list-blogurl list-group-item list-group-item-info">@blog.Url</a>
