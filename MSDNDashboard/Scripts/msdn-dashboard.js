@@ -110,5 +110,17 @@ $(document).ready(function () {
         var jobid = $(this).attr('jobid');
         $('#jobdetail').load(url + '?jobid=' + jobid);
     });
+
+    new Vue({
+        el: '#bloglistindetails',
+        data: {
+            searchtext: ''
+        },
+        methods: {
+            checkText: function (keyword, text) {
+                return keyword === '' || text.indexOf(keyword) !== -1;
+            }
+        }
+    });
 });
 

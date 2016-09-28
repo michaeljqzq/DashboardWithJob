@@ -11,12 +11,6 @@ body {
     padding-right: 15px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
 
 .container-fluid {
     height: 100%;
@@ -172,6 +166,23 @@ div.main-title {
     word-wrap: break-word;
 }
 
+#bloglistindetails ul {
+    padding-left: 0;
+}
+
+#bloglistindetails li {
+    list-style: none;
+}
+
+#searchbox {
+    margin-bottom: 15px;
+}
+
+.blog-list {
+    max-height: 400px;
+    overflow: auto;
+}
+
 .a-white {
     color: white;
 }
@@ -181,6 +192,6 @@ div.main-title {
     text-decoration: none;
 }
 
-.glyphicon {
+#main-c-indicator .glyphicon {
     margin-right:10px;
 }

@@ -62,48 +62,55 @@
                              { label: "Site without admin", value: @countNoAdmin },
                              { label: "Unknown error", value: @countError }
                         ],
-                        colors: [ "#d9edf7" , "#FFEDDB" , "#E0E0FF" , "#CCCCCC" ]
+                        colors: [ "#D9EDF7" , "#FFEDDB" , "#E0E0FF" , "#CCCCCC" ]
                     });
                 });
         </script>
     </div>
 
     <div id="bloglistindetails" class="col-md-7">
-        @if(countNoAdmin!=0)
-        {
-        <div class="panel panel-info">
-            <div class="panel-heading">Blog sites without admin</div>
-            <div class="panel-body list-group">
-                @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.ZeroAdmin))
-                {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-info">@blog.Url</a>
-                }
-            </div>
+        <div id="searchbox" class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+            <input type="text" v-model="searchtext" class="form-control" />
         </div>
-        }
-        @if (countNoFTEAdmin != 0)
-        {
-        <div class="panel panel-info">
-            <div class="panel-heading">Blog sites without FTE admin</div>
-            <div class="panel-body list-group">
-                @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.NoMSFTAdmin))
-                {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-info">@blog.Url</a>
-                }
-            </div>
-        </div>
-        }
-        @if (countError != 0)
-        {
-        <div class="panel panel-info">
-            <div class="panel-heading">Blog sites with unknown error</div>
-            <div class="panel-body list-group">
-                @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.Error))
-                {
-                    <a target="_blank" href="@blog.Url" class="list-group-item list-group-item-warning">@blog.Url</a>
-                }
-            </div>
-        </div>
-        }
+
+            @if (countNoAdmin != 0)
+            {
+                <div class="blog-list panel panel-info">
+                    <div class="panel-heading">Blog sites without admin</div>
+                    <div class="panel-body list-group">
+                        @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.ZeroAdmin))
+                        {
+                            <a target="_blank" v-show="checkText(searchtext,'@blog.Url')" href="@blog.Url" class="list-blogurl list-group-item list-group-item-info">@blog.Url</a>
+                        }
+                    </div>
+                </div>
+            }
+            @if (countNoFTEAdmin != 0)
+            {
+                <div class="panel panel-info">
+                    <div class="panel-heading">Blog sites without FTE admin</div>
+                    <div class="blog-list panel-body list-group">
+                        @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.NoMSFTAdmin))
+                        {
+                            <a target="_blank" v-show="checkText(searchtext,'@blog.Url')" href="@blog.Url" class="list-blogurl list-group-item list-group-item-info">@blog.Url</a>
+                        }
+                    </div>
+                </div>
+            }
+            @if (countError != 0)
+            {
+                <div class="panel panel-info">
+                    <div class="panel-heading">Blog sites with unknown error</div>
+                    <div class="blog-list panel-body list-group">
+                        @foreach (var blog in Model.BlogList.Where(b => b.Status == BlogStatus.Error))
+                        {
+                            <a target="_blank" v-show="checkText(searchtext,'@blog.Url')" href="@blog.Url" class="list-blogurl list-group-item list-group-item-info">@blog.Url</a>
+                        }
+                    </div>
+                </div>
+            }
     </div>
 </div>
