@@ -75,12 +75,6 @@ AutoRefresh.prototype.initialPage = function () {
         });
     });
 
-    $('#joblist a').click(function () {
-        var url = $('#jobdetailurl').val();
-        var jobid = $(this).attr('jobid');
-        $('#jobdetail').load(url + '?jobid=' + jobid);
-    });
-
     var status = $('#jobstatus').val();
     if (status === '1') {
         $('#progressbar').show();
@@ -106,6 +100,12 @@ $(document).ready(function () {
     AutoRefresh.prototype.initialPage();
 
     $('body').delegate('#jobdetailrefresh', 'click', function () {
+        var url = $('#jobdetailurl').val();
+        var jobid = $(this).attr('jobid');
+        $('#jobdetail').load(url + '?jobid=' + jobid);
+    });
+
+    $('#joblist a').click(function () {
         var url = $('#jobdetailurl').val();
         var jobid = $(this).attr('jobid');
         $('#jobdetail').load(url + '?jobid=' + jobid);
