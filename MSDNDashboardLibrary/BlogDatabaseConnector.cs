@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MSDNDashboard.Models;
+using MSDNDashboardLibrary.Models;
 using MySql.Data.MySqlClient;
 
-namespace MSDN.BlogDashboardWebJob
+namespace MSDNDashboardLibrary
 {
     public class BlogDatabaseConnector
     {
         private MySqlConnection connection;
 
-        public BlogDatabaseConnector(string connectionString)
+        public BlogDatabaseConnector()
         {
-            connection = new MySqlConnection(connectionString);
+            connection = new MySqlConnection("server=us-cdbr-azure-c-west-387.cloudapp.net;uid=_msdnprod2_;pwd=z4xfepm5tx5w;database=msdnblogs-prod-cs");
             connection.Open();
         }
 

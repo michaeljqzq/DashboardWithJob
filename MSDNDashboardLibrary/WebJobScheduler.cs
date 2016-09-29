@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using MSDNDashboard.DAL;
-using MSDNDashboard.Models;
+using MSDNDashboardLibrary.DAL;
+using MSDNDashboardLibrary.Models;
 
-namespace MSDN.BlogDashboardWebJob
+namespace MSDNDashboardLibrary
 {
     public class WebJobScheduler
     {
         private static object _lock = new object();
         public async void StartJob(Job job)
         {
+            // To avoid exception reference to http://stackoverflow.com/questions/14033193/entity-framework-provider-type-could-not-be-loaded
+            var x = typeof(System.Data.Entity.SqlServer.SqlProviderServices); 
+
             Console.WriteLine("Job {0} started.",job.ID);
             using(var db = new DataContext())
             {
                 BlogDatabaseConnector blogDatabaseConnector = null;
                 ProfileApiHelper profileApiHelper = null;
                 try {
-                    blogDatabaseConnector = new BlogDatabaseConnector("server=us-cdbr-azure-c-west-387.cloudapp.net;uid=_msdnprod2_;pwd=z4xfepm5tx5w;database=msdnblogs-prod-cs");
-                    profileApiHelper = new ProfileApiHelper("https://profileapi.services.microsoft.com/profileapi/v1/profile/id/Puid:{0}", "d4e9Pi5yeDDVWsItqJP8T4q77ytlYMu7LSFshL1/Hy4=");
+                    blogDatabaseConnector = new BlogDatabaseConnector();
+                    profileApiHelper = new ProfileApiHelper();
                 }
                 catch (Exception e)
                 {
@@ -137,21 +135,6 @@ namespace MSDN.BlogDashboardWebJob
             {
                 return db.Jobs.Any(j => j.Status == JobStatus.Running);
             }
-        }
-
-        public string tgn()
-        {
-            return "next job";
-        }
-
-        public void tr()
-        {
-            lock (_lock)
-            {
-                Thread.Sleep(5000);
-                Console.WriteLine("job finished");
-            }
-            return;
         }
     }
 }

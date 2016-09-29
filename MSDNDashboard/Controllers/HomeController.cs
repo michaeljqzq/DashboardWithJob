@@ -4,10 +4,10 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MSDNDashboard.DAL;
-using MSDNDashboard.Models;
 using System.Data.Entity.SqlServer;
 using System.Text;
+using MSDNDashboardLibrary.DAL;
+using MSDNDashboardLibrary.Models;
 
 namespace MSDNDashboard.Controllers
 {

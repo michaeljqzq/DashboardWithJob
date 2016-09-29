@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MSDN.BlogDashboardWebJob
+namespace MSDNDashboardLibrary
 {
     public class ProfileApiHelper
     {
         private string applicationKey;
         private string profileApiUrlPattern;
 
-        public ProfileApiHelper(string _profileApiUrlPattern, string _applicationKey)
+        public ProfileApiHelper()
         {
-            applicationKey = _applicationKey;
-            profileApiUrlPattern = _profileApiUrlPattern;
+            applicationKey = "https://profileapi.services.microsoft.com/profileapi/v1/profile/id/Puid:{0}";
+            profileApiUrlPattern = "d4e9Pi5yeDDVWsItqJP8T4q77ytlYMu7LSFshL1/Hy4=";
         }
 
         public bool CheckIfUserIsMSFT(string guid)

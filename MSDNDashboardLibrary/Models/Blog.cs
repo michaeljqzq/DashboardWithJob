@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-
-namespace MSDNDashboard.Models
+﻿namespace MSDNDashboardLibrary.Models
 {
     public class Blog
     {

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using MSDNDashboard.Models;
+﻿using System.Data.Entity;
+using MSDNDashboardLibrary.Models;
 
-namespace MSDNDashboard.DAL
+namespace MSDNDashboardLibrary.DAL
 {
     public class DataContext : DbContext
     {
         public DataContext() : base("DataContext")
         {
-            Database.SetInitializer(new DataContextInitializer());
+            //Database.SetInitializer(new DataContextInitializer());
         }
 
         public DbSet<Job> Jobs { get; set; }

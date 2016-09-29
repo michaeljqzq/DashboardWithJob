@@ -5,14 +5,14 @@ namespace MSDNDashboard.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MSDNDashboard.DAL.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MSDNDashboardLibrary.DAL.DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MSDNDashboard.DAL.DataContext context)
+        protected override void Seed(MSDNDashboardLibrary.DAL.DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 
