@@ -163,6 +163,7 @@
       <DependentUpon>201609260206128_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\SiteViewModel.cs" />
     <Compile Include="Util\EncryptionHelper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -183,6 +184,7 @@
     <Content Include="Views\Home\CurrentStatePartial.cshtml" />
     <Content Include="Views\Home\JobHistoryPartial.cshtml" />
     <Content Include="Views\Home\JobDetailPartial.cshtml" />
+    <Content Include="Views\Home\FixUserRole.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

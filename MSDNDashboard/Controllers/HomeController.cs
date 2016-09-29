@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.SqlServer;
 using System.Text;
+using MSDNDashboard.Models;
+using MSDNDashboardLibrary;
 using MSDNDashboardLibrary.DAL;
 using MSDNDashboardLibrary.Models;
 
@@ -21,6 +23,40 @@ namespace MSDNDashboard.Controllers
             List<Job> jobList = db.Jobs.Where(j => j.Status == JobStatus.Running || j.Status == JobStatus.Scheduled).ToList();
             jobList.AddRange(db.Jobs.Where(j => j.Status == JobStatus.Succeeded || j.Status == JobStatus.Failed).OrderByDescending(j => j.ID).Take(num).ToList());
             return View(jobList);
+        }
+
+        [HttpGet]
+        public ActionResult FixUserRole()
+        {
+            return View(new SiteViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult FixUserRole(SiteViewModel site)
+        {
+            if (ModelState.IsValid)
+            {
+                BlogDatabaseConnector blogDatabase = new BlogDatabaseConnector();
+                int blogId = blogDatabase.GetBlogIdByPath(site.Name.TrimStart('/').TrimEnd('/'), site.Brand.ToString().ToLower());
+                if (blogId == -1)
+                {
+                    ViewBag.isSuccess = false;
+                    ViewBag.message = "Can't find blog with the name :" + site.Name;
+                    return View(site);
+                }
+                blogDatabase.InsertUserRoleOptions(blogId);
+
+                RedisConnector redis = new RedisConnector();
+                if (!redis.RemoveSiteOptionCache(blogId))
+                {
+                    ViewBag.isSuccess = false;
+                    ViewBag.message = "Can't refresh cache";
+                    return View(site);
+                }
+                ViewBag.isSuccess = true;
+                ViewBag.message = "Successfully fixed user role";
+            }
+            return View(site);
         }
 
         public ActionResult AjaxUpdate(int jobId)
