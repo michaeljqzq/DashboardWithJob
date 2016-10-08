@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.SqlServer;
+using System.Diagnostics;
 using System.Text;
 using MSDNDashboard.Models;
 using MSDNDashboardLibrary;
@@ -44,13 +45,15 @@ namespace MSDNDashboard.Controllers
                     ViewBag.message = "Can't find blog with the name :" + site.Name;
                     return View(site);
                 }
+                string mysqlResult = "";
                 try
                 {
                     blogDatabase.InsertUserRoleOptions(blogId);
                 }
                 catch (Exception e)
                 {
-                    ;// do nothing since database item already exists
+                    mysqlResult = "Error writing database : " + e.StackTrace;
+                    Trace.TraceError(mysqlResult); // do nothing since database item already exists
                 }
                 
 
@@ -58,11 +61,11 @@ namespace MSDNDashboard.Controllers
                 if (!redis.RemoveSiteOptionCache(blogId))
                 {
                     ViewBag.isSuccess = false;
-                    ViewBag.message = "Can't refresh cache";
+                    ViewBag.message = "Can't refresh cache " + mysqlResult;
                     return View(site);
                 }
                 ViewBag.isSuccess = true;
-                ViewBag.message = "Successfully fixed user role";
+                ViewBag.message = "Successfully fixed user role " + mysqlResult;
             }
             return View(site);
         }
