@@ -44,7 +44,15 @@ namespace MSDNDashboard.Controllers
                     ViewBag.message = "Can't find blog with the name :" + site.Name;
                     return View(site);
                 }
-                blogDatabase.InsertUserRoleOptions(blogId);
+                try
+                {
+                    blogDatabase.InsertUserRoleOptions(blogId);
+                }
+                catch (Exception e)
+                {
+                    ;// do nothing since database item already exists
+                }
+                
 
                 RedisConnector redis = new RedisConnector();
                 if (!redis.RemoveSiteOptionCache(blogId))
