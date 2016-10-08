@@ -8,6 +8,7 @@ using System.Data.Entity.SqlServer;
 using System.Diagnostics;
 using System.Text;
 using MSDNDashboard.Models;
+using MSDNDashboard.Util;
 using MSDNDashboardLibrary;
 using MSDNDashboardLibrary.DAL;
 using MSDNDashboardLibrary.Models;
@@ -17,6 +18,7 @@ namespace MSDNDashboard.Controllers
     public class HomeController : Controller
     {
         // GET: Home
+        [BasicAuthentication("msdn", "#Bugsfor$")]
         public ActionResult Index()
         {
             var db = new DataContext();
@@ -26,6 +28,7 @@ namespace MSDNDashboard.Controllers
             return View(jobList);
         }
 
+        [BasicAuthentication("msdn", "preview")]
         [HttpGet]
         public ActionResult FixUserRole()
         {

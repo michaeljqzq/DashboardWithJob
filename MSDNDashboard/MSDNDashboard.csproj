@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SiteViewModel.cs" />
+    <Compile Include="Util\BasicAuthenticationAttribute.cs" />
     <Compile Include="Util\EncryptionHelper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
