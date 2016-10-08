@@ -28,7 +28,7 @@ namespace MSDNDashboard.Controllers
             return View(jobList);
         }
 
-        [BasicAuthentication("msdn", "preview")]
+        [BasicAuthentication("msdn", "blogdashboard")]
         [HttpGet]
         public ActionResult FixUserRole()
         {
