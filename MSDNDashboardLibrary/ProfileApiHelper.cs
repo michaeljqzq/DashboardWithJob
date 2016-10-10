@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using MSDNDashboard.Util;
 using Newtonsoft.Json;
 
 namespace MSDNDashboardLibrary
@@ -12,8 +13,8 @@ namespace MSDNDashboardLibrary
 
         public ProfileApiHelper()
         {
-            applicationKey = "https://profileapi.services.microsoft.com/profileapi/v1/profile/id/Puid:{0}";
-            profileApiUrlPattern = "d4e9Pi5yeDDVWsItqJP8T4q77ytlYMu7LSFshL1/Hy4=";
+            applicationKey = EncryptionHelper.Configs["ProfileAppKey"];
+            profileApiUrlPattern = EncryptionHelper.Configs["ProfileApiUri"];
         }
 
         public bool CheckIfUserIsMSFT(string guid)

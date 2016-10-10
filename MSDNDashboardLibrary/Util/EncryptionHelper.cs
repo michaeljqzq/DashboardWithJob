@@ -26,6 +26,8 @@ namespace MSDNDashboard.Util
             Configs.Add("BlogsDbConnectionString", "not set");
             Configs.Add("BlogsRedisUri", "not set");
             Configs.Add("BlogsRedisAuthKey", "not set");
+            Configs.Add("ProfileApiUri", "not set");
+            Configs.Add("ProfileAppKey", "not set");
         }
 
         public static void InitilizeKV(string secretUri, string thumbprint, string clientId)
