@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSRedis;
+using MSDNDashboard.Util;
 
 namespace MSDNDashboardLibrary
 {
@@ -14,8 +15,8 @@ namespace MSDNDashboardLibrary
 
         public RedisConnector()
         {
-            client = new RedisClient("msdn-west-p-cache.redis.cache.windows.net");
-            client.Auth("ZxOd5HAtuOfYpajzLBDJtT9o3p+eU5CEUhc8p1qkLpc=");
+            client = new RedisClient(EncryptionHelper.Configs["BlogsRedisUri"]);
+            client.Auth(EncryptionHelper.Configs["BlogsRedisAuthKey"]);
         }
 
         public bool RemoveSiteOptionCache(int blogId)

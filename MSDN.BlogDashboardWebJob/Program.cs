@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
+using MSDNDashboard.Util;
 using MSDNDashboardLibrary;
 using MSDNDashboardLibrary.Models;
 
@@ -12,6 +13,7 @@ namespace MSDN.BlogDashboardWebJob
     {
         static void Main(string[] args)
         {
+            EncryptionHelper.InitilizeKV(ConfigurationManager.AppSettings["KVSecretUri"], ConfigurationManager.AppSettings["KVThumbprint"], ConfigurationManager.AppSettings["KVClientId"]);
             var scheduler = new WebJobScheduler();
             while (true)
             {

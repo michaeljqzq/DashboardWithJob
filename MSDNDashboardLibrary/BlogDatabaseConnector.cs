@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MSDNDashboard.Util;
 using MSDNDashboardLibrary.Models;
 using MySql.Data.MySqlClient;
 
@@ -11,7 +12,7 @@ namespace MSDNDashboardLibrary
 
         public BlogDatabaseConnector()
         {
-            connection = new MySqlConnection("server=us-cdbr-azure-c-west-387.cloudapp.net;uid=_msdnprod2_;pwd=z4xfepm5tx5w;database=msdnblogs-prod-cs");
+            connection = new MySqlConnection(EncryptionHelper.Configs["BlogsDbConnectionString"]);
             connection.Open();
         }
 

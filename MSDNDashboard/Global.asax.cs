@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-using Microsoft.Azure.KeyVault;
+using MSDNDashboard.Util;
 
 namespace MSDNDashboard
 {
@@ -14,6 +15,8 @@ namespace MSDNDashboard
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            EncryptionHelper.InitilizeKV(WebConfigurationManager.AppSettings["KVSecretUri"], WebConfigurationManager.AppSettings["KVThumbprint"], WebConfigurationManager.AppSettings["KVClientId"]);
 
             //var db = new DataContext();
             //if(db.Jobs.ToList().Count == 0)
