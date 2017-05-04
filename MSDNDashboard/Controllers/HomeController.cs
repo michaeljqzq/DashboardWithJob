@@ -38,6 +38,26 @@ namespace MSDNDashboard.Controllers
         [HttpPost]
         public ActionResult FixUserRole(SiteViewModel site)
         {
+            BlogDatabaseConnector blogDatabase = new BlogDatabaseConnector();
+            return fixSite(site, blogDatabase.InsertUserRoleOptions);
+        }
+
+        [BasicAuthentication("msdn", "blogdashboard")]
+        [HttpGet]
+        public ActionResult FixRewrite()
+        {
+            return View(new SiteViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult FixRewrite(SiteViewModel site)
+        {
+            BlogDatabaseConnector blogDatabase = new BlogDatabaseConnector();
+            return fixSite(site, blogDatabase.UpdateRewriteRules);
+        }
+
+        private ActionResult fixSite(SiteViewModel site,Action<int> databaseMethod)
+        {
             if (ModelState.IsValid)
             {
                 BlogDatabaseConnector blogDatabase = new BlogDatabaseConnector();
@@ -51,14 +71,14 @@ namespace MSDNDashboard.Controllers
                 string mysqlResult = "";
                 try
                 {
-                    blogDatabase.InsertUserRoleOptions(blogId);
+                    databaseMethod(blogId);
                 }
                 catch (Exception e)
                 {
                     mysqlResult = "Error writing database : " + e.StackTrace;
                     Trace.TraceError(mysqlResult); // do nothing since database item already exists
                 }
-                
+
 
                 RedisConnector redis = new RedisConnector();
                 if (!redis.RemoveSiteOptionCache(blogId))
@@ -162,7 +182,7 @@ namespace MSDNDashboard.Controllers
             }
             StringBuilder output = new StringBuilder();
             output.Append("BlogID,BlogUrl,Status\n");
-            foreach (var blog in job.BlogList.Where(b=>b.Status == BlogStatus.NoMSFTAdmin || b.Status == BlogStatus.ZeroAdmin || b.Status == BlogStatus.Error).OrderBy(b=>b.Status))
+            foreach (var blog in job.BlogList.OrderBy(b=>b.Status))
             {
                 output.Append("\"");
                 output.Append(blog.BlogID);

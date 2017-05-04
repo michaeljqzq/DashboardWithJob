@@ -4,30 +4,34 @@ using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CSRedis;
 using MSDNDashboard.Util;
+using StackExchange.Redis;
 
 namespace MSDNDashboardLibrary
 {
     public class RedisConnector
     {
-        private RedisClient client;
+        private ConnectionMultiplexer client;
 
         public RedisConnector()
         {
-            client = new RedisClient(EncryptionHelper.Configs["BlogsRedisUri"]);
-            client.Auth(EncryptionHelper.Configs["BlogsRedisAuthKey"]);
+            client =
+                ConnectionMultiplexer.Connect(EncryptionHelper.Configs["BlogsRedisUri"] + ",password=" +
+                                              EncryptionHelper.Configs["BlogsRedisAuthKey"]);
         }
 
         public bool RemoveSiteOptionCache(int blogId)
         {
             string[] keys = {"{0}:options:alloptions","{0}:options:notoptions"};
+            var db = client.GetDatabase();
             for(int i = 0;i<keys.Length;i++)
             {
-                keys[i] = string.Format(keys[i], blogId);
+                if (!db.KeyDelete(string.Format(keys[i], blogId)))
+                {
+                    return false;
+                }
             }
-            var result = client.Del(keys);
-            return result == keys.Length;
+            return true;
         }
     }
 }

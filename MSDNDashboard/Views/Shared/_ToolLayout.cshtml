@@ -1,0 +1,39 @@
+﻿@model MSDNDashboard.Models.SiteViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row main-title">
+    <div class="col-md-1">
+        <h3>@ViewBag.Title</h3>
+    </div>
+</div>
+@if (ViewBag.isSuccess != null)
+{
+    <div class="alert alert-warning fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <div>@ViewBag.message</div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            <div>
+                <h4>@Html.LabelFor(m => m.Brand)</h4>
+
+                @Html.DropDownListFor(m => m.Brand, Model.BrandItems, new { @class = "form-control" })
+            </div>
+            <div>
+                <h4>@Html.LabelFor(m => m.Name)</h4>
+
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <br /><br />
+            <input onclick="$(this).attr('disabled','disabled'); this.form.submit();" class="btn btn-success" type="submit" value="Fix Site" />
+        }
+    </div>
+</div>
+@RenderBody()
+

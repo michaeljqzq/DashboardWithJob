@@ -152,6 +152,8 @@
     <Content Include="Views\Home\JobHistoryPartial.cshtml" />
     <Content Include="Views\Home\JobDetailPartial.cshtml" />
     <Content Include="Views\Home\FixUserRole.cshtml" />
+    <Content Include="Views\Home\FixRewrite.cshtml" />
+    <Content Include="Views\Shared\_ToolLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

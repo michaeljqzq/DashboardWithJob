@@ -67,36 +67,39 @@ namespace MSDNDashboardLibrary
                         continue;
                     }
                     //var js1 = Stopwatch.StartNew();
-                    List<string> blogAdmins = blogDatabaseConnector.GetBlogAdmins(_blog.BlogID);
+                    //List<string> blogAdmins = blogDatabaseConnector.GetBlogAdmins(_blog.BlogID);
                     //js1.Stop();
                     //var js2 = Stopwatch.StartNew();
-                    Console.WriteLine("\n---------------------------\nScanning site : {0} (id:{1}). Found admin numbers:{2}\n",_blog.Url,_blog.BlogID,blogAdmins.Count);
-                    BlogStatus status = BlogStatus.NoMSFTAdmin;
-                    if(blogAdmins.Count==0)
-                    {
-                        status = BlogStatus.ZeroAdmin;
-                    }
-                    foreach (var blogAdmin in blogAdmins)
-                    {
-                        Console.WriteLine("Fetch user : {0} .", blogAdmin);
-                        try
-                        {
-                            if (profileApiHelper.CheckIfUserIsMSFT(blogAdmin))
-                            {
-                                status = BlogStatus.Normal;
-                                break;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("[exception] : "+e.StackTrace);
-                            status = BlogStatus.Error;
-                            break;
-                        }
-                    }
+                    // Console.WriteLine("\n---------------------------\nScanning site : {0} (id:{1}). Found admin numbers:{2}\n",_blog.Url,_blog.BlogID,blogAdmins.Count);
+                    //BlogStatus status = BlogStatus.NoMSFTAdmin;
+                    //if(blogAdmins.Count==0)
+                    //{
+                    //    status = BlogStatus.ZeroAdmin;
+                    //}
+                    //foreach (var blogAdmin in blogAdmins)
+                    //{
+                    //    Console.WriteLine("Fetch user : {0} .", blogAdmin);
+                    //    try
+                    //    {
+                    //        if (profileApiHelper.CheckIfUserIsMSFT(blogAdmin))
+                    //        {
+                    //            status = BlogStatus.Normal;
+                    //            break;
+                    //        }
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        Console.WriteLine("[exception] : "+e.StackTrace);
+                    //        status = BlogStatus.Error;
+                    //        break;
+                    //    }
+                    //}
                     //js2.Stop();
                     //Console.WriteLine("\nComplete scanning site : {0}. Result : {1}. Time taken:{2} ms(Mysql:{3} ms, Api:{4} ms).", _blog.BlogID, status.ToString(), js1.ElapsedMilliseconds + js2.ElapsedMilliseconds, js1.ElapsedMilliseconds, js2.ElapsedMilliseconds);
-                    _blog.Status = status;
+                    //_blog.Status = status;
+                    _blog.Status = blogDatabaseConnector.isCETheme(_blog.BlogID)
+                        ? BlogStatus.ZeroAdmin
+                        : BlogStatus.Normal;
                     db.Blogs.Add(_blog);
                     job.CurrentNumber = ++i;
                     db.Entry(job).State = EntityState.Modified;
